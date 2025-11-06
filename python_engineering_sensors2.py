@@ -92,7 +92,7 @@ try:
                         print("Octave up)")
                         print(f"Impact detected on Piezo {sensor_index}")
 
-                    if sensor_index == 12 and octave_up == True:
+                    if octave_up == True:
                         octave_up = False
                         print("Octave down")
                         print(f"Impact detected on Piezo {sensor_index}")

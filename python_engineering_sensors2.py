@@ -5,15 +5,15 @@ import threading
 import os
 
 # --- CONFIGURATION ---
-SERIAL_PORT = 'COM9'    # ← Update if needed
+SERIAL_PORT = 'COM9' # COM9 for arduino mega 
 BAUD_RATE = 9600
-SOUND_FOLDER = 'C:/Users/brand/OneDrive/Documents/Arduino/notes'  # Folder containing MP3/WAV files
+SOUND_FOLDER = 'C:/Users/brand/OneDrive/Documents/Arduino/notes'  
 # ----------------------
 
 # Initialize pygame mixer (allows multiple simultaneous sounds)
 
 pygame.mixer.init()
-pygame.mixer.set_num_channels(12)  # You can increase this for more overlap
+pygame.mixer.set_num_channels(12)  # increase this for more overlap
 
 # Connect to Arduino
 ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
@@ -22,9 +22,10 @@ ser.reset_input_buffer()
 
 print("Listening for Arduino input...")
 
-octave_up = True
+octave_up = False
 
-sensors_dict = {0:'A', # maps each sensor to a note
+sensors_dict = { # maps each sensor to a note
+                0:'A', 
                 1:'As',
                 2:'B',
                 3:'C',
@@ -35,9 +36,11 @@ sensors_dict = {0:'A', # maps each sensor to a note
                 8:'F',
                 9:'Fs',
                 10:'G',
-                11:'Gs',}
+                11:'Gs',
+                }
 
-octave_up_dict = {0:'A4', # octave up versions for each sensor
+octave_up_dict = { # octave up versions for each sensor
+                0:'A4', 
                 1:'As4',
                 2:'B4',
                 3:'C4',
@@ -48,10 +51,11 @@ octave_up_dict = {0:'A4', # octave up versions for each sensor
                 8:'F4',
                 9:'Fs4',
                 10:'G4',
-                11:'Gs4'}
+                11:'Gs4'
+                }
 
+# play sound corresponding to the triggered piezo, allowing overlap.
 def play_sound(sensor_index, filename):
-    """Play sound corresponding to the triggered piezo, allowing overlap."""
     if not os.path.exists(filename):
         print(f"[Warning] File not found: {filename}")
         return

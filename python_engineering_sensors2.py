@@ -7,7 +7,7 @@ import os
 # --- CONFIGURATION ---
 SERIAL_PORT = 'COM9' # COM9 for arduino mega 
 BAUD_RATE = 9600
-SOUND_FOLDER = 'C:/Users/brand/OneDrive/Documents/Arduino/notes'  
+SOUND_FOLDER = 'C:/Users/brand/OneDrive/Documents/Arduino/notes2'  
 # ----------------------
 
 # Initialize pygame mixer (allows multiple simultaneous sounds)
@@ -25,18 +25,18 @@ print("Listening for Arduino input...")
 octave_up = False
 
 sensors_dict = { # maps each sensor to a note
-                0:'C', 
-                1:'Cs',
-                2:'D',
-                3:'Ds',
-                4:'E',
-                5:'F',
-                6:'Fs',
-                7:'G',
-                8:'Gs',
-                9:'A',
-                10:'As',
-                11:'B',
+                0:'C3', 
+                1:'Cs3',
+                2:'D3',
+                3:'Ds3',
+                4:'E3',
+                5:'F3',
+                6:'Fs3',
+                7:'G3',
+                8:'Gs3',
+                9:'A3',
+                10:'As3',
+                11:'B3',
                 }
 
 octave_up_dict = { # octave up versions for each sensor
@@ -44,7 +44,7 @@ octave_up_dict = { # octave up versions for each sensor
                 1:'Cs4',
                 2:'D4',
                 3:'Ds4',
-                4:'Es4',
+                4:'E4',
                 5:'F4',
                 6:'Fs4',
                 7:'G4',
@@ -75,27 +75,37 @@ try:
 
                 if sensor_index < 12: # sensors 0 - 11 for notes
 
-                    if octave_up == False:
-                        filename = os.path.join(SOUND_FOLDER, f"{sensors_dict[sensor_index]}" + ".mp3")  
+                    #if octave_up == False:
+                     #   filename = os.path.join(SOUND_FOLDER, f"{sensors_dict[sensor_index]}" + ".mp3")  
+                      #  print(f"Impact detected on Piezo {sensor_index}")
+                       # threading.Thread(target=play_sound(0, filename), args=(sensor_index,)).start()
+
+                    if octave_up:
+                        filename = os.path.join(SOUND_FOLDER, f"{octave_up_dict[sensor_index]}" + ".mp3")  
                         print(f"Impact detected on Piezo {sensor_index}")
                         threading.Thread(target=play_sound(0, filename), args=(sensor_index,)).start()
-
-                    if octave_up == True:
-                        filename = os.path.join(SOUND_FOLDER, f"{octave_up_dict[sensor_index]}" + ".mp3")  
+                    else:
+                        filename = os.path.join(SOUND_FOLDER, f"{sensors_dict[sensor_index]}" + ".mp3")  
                         print(f"Impact detected on Piezo {sensor_index}")
                         threading.Thread(target=play_sound(0, filename), args=(sensor_index,)).start()
 
                 if sensor_index == 12: # sensor 12 for octave switch
 
-                    if octave_up == False:  
-                        octave_up = True
-                        print("Octave up)")
-                        print(f"Impact detected on Piezo {sensor_index}")
 
+  #                  if octave_up == False:  
+   #                     octave_up = True
+    #                    print("Octave up)")
+     #                   print(f"Impact detected on Piezo {sensor_index}")
                     if octave_up == True:
                         octave_up = False
                         print("Octave down")
                         print(f"Impact detected on Piezo {sensor_index}")
+                    else:
+                        octave_up = True
+                        print("Octave up)")
+                        print(f"Impact detected on Piezo {sensor_index}")
+                        time.sleep(0.25)
+
 
 except KeyboardInterrupt:
     print("\nExiting gracefully...")

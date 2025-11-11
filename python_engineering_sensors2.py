@@ -84,6 +84,7 @@ try:
                         filename = os.path.join(SOUND_FOLDER, f"{octave_up_dict[sensor_index]}" + ".mp3")  
                         print(f"Impact detected on Piezo {sensor_index}")
                         threading.Thread(target=play_sound(0, filename), args=(sensor_index,)).start()
+                        time.sleept
                     else:
                         filename = os.path.join(SOUND_FOLDER, f"{sensors_dict[sensor_index]}" + ".mp3")  
                         print(f"Impact detected on Piezo {sensor_index}")
@@ -96,6 +97,7 @@ try:
    #                     octave_up = True
     #                    print("Octave up)")
      #                   print(f"Impact detected on Piezo {sensor_index}")
+
                     if octave_up == True:
                         octave_up = False
                         print("Octave down")
@@ -104,7 +106,8 @@ try:
                         octave_up = True
                         print("Octave up)")
                         print(f"Impact detected on Piezo {sensor_index}")
-                        time.sleep(0.25)
+            
+            time.sleep(0.5)
 
 
 except KeyboardInterrupt:
